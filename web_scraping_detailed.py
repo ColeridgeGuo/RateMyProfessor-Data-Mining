@@ -1,8 +1,4 @@
 from selenium import webdriver
-#from selenium.webdriver.common.by import By
-#from selenium.webdriver.support.ui import WebDriverWait
-#from selenium.webdriver.support import expected_conditions as EC
-#import time
 import csv
 
 """
@@ -252,6 +248,7 @@ for url in prof_urls:
     # Writing the dict to the csv
     writer.writerow(review_dict.values())
 
+# Close the csv reader
 csv_file.close()
 # Close the webDriver
 driver.close()
