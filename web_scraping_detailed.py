@@ -30,8 +30,8 @@ num_professors = driver.find_element_by_xpath(
 prof_button = driver.find_element_by_xpath(
   '//div[@class = "content"]')
 
-# Click the loadMore Pprofessors buttons
-for i in range(int(num_professors) // 20): # manually assigned range
+# Click the loadMore Professors buttons to get the full list
+for _ in range(int(num_professors) // 20):
   driver.execute_script("arguments[0].click();", prof_button)
   
 # collecting list of urls of profs
@@ -99,7 +99,7 @@ for url in prof_urls:
     '//a[@id = "loadMore"]')
   
   # Click the button the desired number of times
-  for i in range(button_clicks):
+  for _ in range(button_clicks):
     driver.execute_script("arguments[0].click();", button2)
     
   # Scrape the comments without ads that are placed alongside the reviews
@@ -112,7 +112,7 @@ for url in prof_urls:
   rest_of_reviews = reviews[20:]
   
   # Process the reviews in 'commentsParagraph'
-  for ind, review in enumerate(first_20_reviews):
+  for _, review in enumerate(first_20_reviews):
   
     # Initialize the dict
     review_dict = {}
@@ -181,7 +181,7 @@ for url in prof_urls:
     writer.writerow(review_dict.values())
   
   # Process the reviews in 'p'
-  for ind, review in enumerate(rest_of_reviews):
+  for _, review in enumerate(rest_of_reviews):
     
     # Initialize the dict
     review_dict = {}
