@@ -1,4 +1,5 @@
 from selenium import webdriver
+from selenium.common.exceptions import NoSuchElementException
 import csv
 
 """
@@ -82,17 +83,22 @@ for url in prof_urls:
   num_ratings = driver.find_element_by_xpath(
     '//div[@data-table = "rating-filter"]').text.split(" ")[0]
   num_ratings = int(num_ratings)
-  button_clicks = (num_ratings - 7) // 20 + 1 # the first 7 reviews are unaffected by laodMore
+  button_clicks = num_ratings // 20
   
   # Initialize the first "Load More Ratings" button to access ratings other than the first 7
-  button1 = driver.find_element_by_xpath(
-    '//a[@class = "tbl-read-more-btn"]')
+  try:
+    button1 = driver.find_element_by_xpath(
+      '//a[@class = "tbl-read-more-btn"]')
+    driver.execute_script("arguments[0].click();", button1)
+    button_clicks = (num_ratings - 7) // 20 + 1 # the first 7 reviews are unaffected by laodMore
+  except NoSuchElementException:
+    print("First button not found.")
+  
   # Initialize the loadMore button for the rest of the reviews
   button2 = driver.find_element_by_xpath(
     '//a[@id = "loadMore"]')
   
   # Click the button the desired number of times
-  driver.execute_script("arguments[0].click();", button1)
   for i in range(button_clicks):
     driver.execute_script("arguments[0].click();", button2)
     
